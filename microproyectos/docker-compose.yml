@@ -1,0 +1,51 @@
+version: "3.7"
+services: 
+ microproyectos01:
+  container_name: microproyectos01
+  image: carlosj778/microproyectos:v1
+  build:
+    context: .
+  ports:
+   - "6001"
+  networks:
+   - ase-acad
+  environment:
+   HOST: microproyectos01
+
+ microproyectos02:
+  container_name: microproyectos02
+  image: carlosj778/microproyectos:v1
+  ports:
+   - "6001"     
+  networks:
+   - ase-acad
+  environment:
+   HOST: microproyectos02
+
+ microproyectos03:
+  container_name: microproyectos03
+  image: carlosj778/microproyectos:v1
+  ports:
+   - "6001"     
+  networks:
+   - ase-acad
+  environment:
+   HOST: microproyectos03
+   
+ balanceador:
+  container_name: balanceador_proyectos
+  image: carlosj778/balanceador_proyectos:v1.0
+  build:
+   context: ./balanceador
+  ports:
+   - "8082:80"
+  networks:
+   - ase-acad
+  depends_on:
+   - microproyectos01
+   - microproyectos02
+   - microproyectos03
+  restart: always   
+  
+networks:
+ ase-acad:

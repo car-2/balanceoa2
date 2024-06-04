@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  appmonolitica:
+    container_name: appmonolitica
+    image: carlosj778/appmonolitica:v2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6000:6000"
+    networks:
+      - ase-acad
+networks:
+  ase-acad:
+    driver: bridge

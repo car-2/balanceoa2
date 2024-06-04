@@ -1,0 +1,40 @@
+version: "3.7"
+services: 
+ microuniversidades01:
+  container_name: microuniversidades01
+  image: carlosj778/microappuniversidades:v1
+  build:
+    context: .
+  ports:
+   - "7000"
+  networks:
+   - ase-acad
+  environment:
+   HOST: microuniversidades01
+
+ microuniversidades02:
+  container_name: microuniversidades02
+  image: carlosj778/microappuniversidades:v1
+  ports:
+   - "7000"     
+  networks:
+   - ase-acad
+  environment:
+   HOST: microuniversidades02
+
+ balanceador:
+  container_name: balanceadoruniversidades
+  image: carlosj778/balanceadoruniversidades:v1
+  build:
+   context: ./balanceador
+  ports:
+   - "7007:80"
+  networks:
+   - ase-acad
+  depends_on:
+   - microuniversidades01
+   - microuniversidades02
+  restart: always   
+
+networks:
+ ase-acad:
